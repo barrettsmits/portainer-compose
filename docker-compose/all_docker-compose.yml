@@ -1,0 +1,94 @@
+version: "3.8"
+
+services:
+  sonarqube:
+    image: sonarqube:latest
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    # environment:
+    #     - UID=2001
+    #     - GID=2001
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+  # teslamate:
+  #     image: teslamate/teslamate:latest
+  #     container_name: teslamate
+  #     ports:
+  #       - "4000:4000"
+  #     environment:
+  #       - UID=2001
+  #       - GID=2001
+  #       - DATABASE_HOST=192.168.1.53
+  #       - DATABASE_NAME=teslamate
+  #       - DATABASE_USER=teslamate
+  #       - DATABASE_PASS= {{ENV_TESLAMATE_DATABASE_PASS}}
+  #     volumes:
+  #       - teslamate_data:/opt/app/data
+  #     restart: unless-stopped
+  #     networks:
+  #       - homelab
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: prometheus
+  #   ports:
+  #     - "9090:9090"
+  #   environment:
+  #       - UID=2001
+  #       - GID=2001
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - prometheus_data:/prometheus
+  #   restart: unless-stopped
+  #   networks:
+  #     - homelab
+
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   container_name: grafana
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #       - UID=2001
+  #       - GID=2001
+  #   volumes:
+  #     - grafana_data:/var/lib/grafana
+  #   restart: unless-stopped
+  #   networks:
+  #     - homelab
+
+volumes:
+  sonarqube_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.1.53,rw
+      device: :/mnt/RedFortress/portainer_apps/sonarqube
+  # foundryvtt_data:
+  #   driver: local
+  #   driver_opts:
+  #     type: nfs
+  #     o: addr=192.168.1.53,rw,uid=2001,gid=2001
+  #     device: :/mnt/RedFortress/portainer_apps/foundryvtt
+  # teslamate_data:
+  #   driver: local
+  #   driver_opts:
+  #     type: nfs
+  #     o: addr=192.168.1.53,rw
+  #     device: :/mnt/RedFortress/portainer_apps/teslamate
+  # prometheus_data:
+  #   driver: local
+  #   driver_opts:
+  #     type: nfs
+  #     o: addr=192.168.1.53,rw
+  #     device: :/mnt/RedFortress/portainer_apps/prometheus
+  # grafana_data:
+  #   driver: local
+  #   driver_opts:
+  #     type: nfs
+  #     o: addr=192.168.1.53,rw
+  #     device: :/mnt/RedFortress/portainer_apps/grafana
+
+networks:
+  homelab:
+    driver: bridge
