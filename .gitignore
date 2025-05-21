@@ -1,0 +1,5 @@
+.env
+teslamate.env
+**/individual/*
+!**/individual/example.yml
+
