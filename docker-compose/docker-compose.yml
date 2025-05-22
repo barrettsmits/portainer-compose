@@ -1,20 +1,21 @@
-version: "3.8"
+
 services:
   sonarqube:
     image: sonarqube:latest
     container_name: sonarqube
+    user: "2001:3004"
     ports:
       - "9000:9000"
-    environment:
-       - UID=2001
-       - GID=2001
+    # environment:
+      #  - UID=2001
+      #  - GID=3004
       # - SONAR_JDBC_URL=jdbc:postgresql://192.168.1.53:5432/sonarqube
       # - SONAR_JDBC_USERNAME=sonarqube
       # - SONAR_JDBC_PASSWORD={{ENV_SONAR_JDBC_PASSWORD}}
     volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_logs:/opt/sonarqube/logs
-      - sonarqube_extensions:/opt/sonarqube/extensions
+      - /mnt/nfs_sonarqube/data:/opt/sonarqube/data
+      - /mnt/nfs_sonarqube/logs:/opt/sonarqube/logs
+      - /mnt/nfs_sonarqube/extensions:/opt/sonarqube/extensions
     cap_drop:
       - NET_ADMIN
       - SYS_ADMIN
